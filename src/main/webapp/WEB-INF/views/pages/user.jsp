@@ -14,7 +14,7 @@
 		src="http://sou.gohorseprocess.com.br/wp-content/uploads/2017/05/horse21.png">
 	<h1>Cadastro</h1>
 	<h3>User form</h3>
-	<form:form modelAttribute="user" action="${pageContext.request.contextPath}/user/save" method="GET">
+	<form:form modelAttribute="user" action="${pageContext.request.contextPath}/user" method="POST">
 		<div>
 			<label>Name:</label>
 			<form:input path="nome" id="nome" type="text" />
