@@ -48,6 +48,8 @@
 			<td>CPF</td>
 			<td>Birthdate</td>
 			<td>Address</td>
+			<td>Edit</td>
+			
 		</tr>
 		<c:forEach items="${users}" var="user">
 			<tr>
@@ -56,6 +58,8 @@
 				<td>${user.cpf}</td>
 				<td>${user.datanasc}</td>
 				<td>${user.endereco}</td>
+				<td><a href="${pageContext.request.contextPath}/user/${user.id}">Edit</a></td>
+				
 			</tr>
 
 		</c:forEach>
