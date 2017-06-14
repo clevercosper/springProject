@@ -52,10 +52,12 @@ public class UserController {
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
 	public ModelAndView update(@PathVariable("userId") Integer userId, User user) {
-		ModelAndView view = new ModelAndView("user");
+		ModelAndView view = new ModelAndView("redirect:/user");
 
 		user = userService.update(userId, user);
+		
 		view.addObject("user", user);
+		
 		return view;
 	}
 	

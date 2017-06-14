@@ -14,7 +14,18 @@
 		src="http://sou.gohorseprocess.com.br/wp-content/uploads/2017/05/horse21.png">
 	<h1>Cadastro</h1>
 	<h3>User form</h3>
-	<form:form modelAttribute="user" action="${pageContext.request.contextPath}/user" method="POST">
+	<c:choose>
+		<c:when test="${user.id>0 }">
+			<c:set var="formMethod" value="PUT"></c:set>
+			<c:url var="formAction" value="/user/${user.id}"></c:url>
+		</c:when>
+		<c:otherwise>
+			<c:set var="formMethod" value="POST"></c:set>
+			<c:url var="formAction" value="/user"></c:url>
+		
+		</c:otherwise>
+	</c:choose>
+	<form:form modelAttribute="user" action="${formAction}" method="${formMethod}">
 		<div>
 			<label>Name:</label>
 			<form:input path="nome" id="nome" type="text" />
