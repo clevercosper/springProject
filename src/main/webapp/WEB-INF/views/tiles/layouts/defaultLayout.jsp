@@ -6,7 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><tiles:getAsString name="title"></tiles:getAsString></title>
-<style type="text/css">
+<link rel="stylesheet" href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css">
+<link rel="stylesheet" href="webjars/bootstrap/3.3.7-1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="webjars/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!--  style type="text/css">
 #header {
 	margin-left: 20%;
 }
@@ -38,7 +42,7 @@
 	text-decoration: none;
 	text-transform: uppercase;
 }
-</style>
+</style-->
 </head>
 <body>
 	<header id="header">
@@ -53,5 +57,7 @@
 	<footer id="footer">
 		<tiles:insertAttribute name="footer"></tiles:insertAttribute>
 	</footer>
+	<script src="webjars/jquery/3.2.1/jquery.min.js"></script>
+	<script src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 </body>
 </html>
