@@ -2,15 +2,36 @@ package br.com.season.springproject.entity;
 
 import java.util.Date;
 
-public class User {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.br.CPF;
+
+@Entity
+@Table(name = "USER")
+public class User {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer Id;
 
-
+	@Column(name = "NOME")
 	private String nome;
+
+	@Column(name = "SOBRENOME")
 	private String sobrenome;
+
+	@CPF(message = "Wrong CPF")
+	@Column(name = "CPF")
 	private String cpf;
+
+	@Column(name = "DATANASC")
 	private Date datanasc;
+
+	@Column(name = "ENDERECO")
 	private String endereco;
 
 	@Override
@@ -53,6 +74,7 @@ public class User {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 	public Integer getId() {
 		return Id;
 	}
@@ -60,7 +82,7 @@ public class User {
 	public void setId(Integer id) {
 		Id = id;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
