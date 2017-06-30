@@ -1,9 +1,7 @@
 package br.com.season.springproject.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,15 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.season.springproject.dao.UserDAO;
 import br.com.season.springproject.entity.User;
 
-
 @Service
-@Transactional //spring
+@Transactional // spring
 public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDAO userDAO;
-	
-	List<User> users = new ArrayList<>();
 
 	@Override
 	public User findById(Integer id) {
@@ -30,33 +25,36 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> findAll() {
 		// TODO Auto-generated method stub
-		return users;
+		return userDAO.findAll();
 	}
 
 	@Override
 	public void save(User user) {
-		//regras para salvamento são definidas nessa camada(service) a DAO somente executa a tarefa de salvamento. 
+		// regras para salvamento são definidas nessa camada(service) a DAO
+		// somente executa a tarefa de salvamento.
 		userDAO.save(user);
 
 	}
 
 	@Override
-	public User update(Integer userId, User user) {
+	public User update(User user) {
 
-		User foundUser = findById(userId);
-		
-		BeanUtils.copyProperties(user, foundUser);
-		
-		userDAO.update(foundUser);
-		
-		return foundUser;
+		userDAO.update(user);
+
+		return user;
 	}
 
 	@Override
-	public void delete(User user) {
-		
+	public User delete(User user) {
 		userDAO.delete(user);
+		return user;
 
+	}
+
+	@Override
+	public User findByCpf(String cpf) {
+
+		return userDAO.findByCpf(cpf);
 	}
 
 }

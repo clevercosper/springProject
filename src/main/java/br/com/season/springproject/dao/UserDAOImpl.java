@@ -17,33 +17,41 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User findById(Integer id) {
-		
+
 		return em.find(User.class, id);
 	}
 
 	@Override
 	public List<User> findAll() {
-		
-		return null;
+
+		return em.createQuery("SELECT u FROM User u", User.class).getResultList();
 	}
 
 	@Override
 	public void save(User user) {
-		
+
 		em.persist(user);
 
 	}
 
 	@Override
-	public void update(User user) {
-		
+	public User update(User user) {
+
 		em.merge(user);
+		return user;
 	}
 
 	@Override
-	public void delete(User user) {
+	public User delete(User user) {
 		em.remove(findById(user.getId()));
+		return user;
 
+	}
+
+	@Override
+	public User findByCpf(String cpf) {
+		// TODO Auto-generated method stub
+		return em.createNamedQuery("User.findByCpf", User.class).setParameter("cpf", cpf).getSingleResult();
 	}
 
 }

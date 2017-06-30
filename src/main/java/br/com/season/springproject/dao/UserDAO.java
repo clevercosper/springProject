@@ -1,18 +1,10 @@
 package br.com.season.springproject.dao;
 
-import java.util.List;
-
 import br.com.season.springproject.entity.User;
+import br.com.season.springproject.generic.JPAGeneric;
 
-public interface UserDAO {
+public interface UserDAO extends JPAGeneric<User> {
 
-User findById(Integer id);
-	
-	List<User> findAll();
-	
-	void save(User save);
-	
-	void update(User user);
+	User findByCpf(String cpf);
 
-	void delete(User user);
 }
