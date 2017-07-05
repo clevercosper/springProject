@@ -1,7 +1,6 @@
 package br.com.season.springproject.controllers;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,7 +65,7 @@ public class UserController {
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	public String getById(@PathVariable("userId") Integer userId, ModelMap map) {
-	
+
 		User found = userService.findById(userId);
 
 		List<User> list = userService.findAll();
@@ -84,4 +84,25 @@ public class UserController {
 
 	}
 
+	@RequestMapping("/find-by")
+	public String findBy(@RequestParam("lastName") String lastName, @RequestParam("firstName") String firstName,
+			@RequestParam("cpf") String cpf, ModelMap map) {
+		// TODO Auto-generated method stub
+		List<User> users = userService.findBy(lastName, firstName, cpf);
+		map.addAttribute("user", new User());
+		map.addAttribute("users", users);
+		return "user";
+	}
+
+	@RequestMapping("/delete/{userId}")
+	public String delete(@PathVariable("userId") Integer userId, ModelMap map) {
+		User found = userService.findById(userId);
+		if (found != null) {
+			userService.delete(found);
+		}
+		map.addAttribute("user", new User());
+		map.addAttribute("users", userService.findAll());
+		return "user";
+
+	}
 }

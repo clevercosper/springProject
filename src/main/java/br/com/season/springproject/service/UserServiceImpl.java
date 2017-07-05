@@ -57,4 +57,10 @@ public class UserServiceImpl implements UserService {
 		return userDAO.findByCpf(cpf);
 	}
 
+	@Override
+	public List<User> findBy(String lastName, String firstName, String cpf) {
+		// TODO Auto-generated method stub
+		return userDAO.findBy(lastName,firstName, cpf);
+	}
+
 }

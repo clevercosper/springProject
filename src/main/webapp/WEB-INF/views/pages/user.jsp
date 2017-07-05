@@ -1,5 +1,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -18,6 +20,9 @@
 	<div class="page-header well">
 		<h1>Cadastro</h1>
 		<h3>User form</h3>
+		<a href="${pageContext.request.contextPath}/user?myLocale=en_US">English</a>
+		<a href="${pageContext.request.contextPath}/user?myLocale=pt_BR">Portugues</a>
+
 	</div>
 	<c:choose>
 		<c:when test="${user.id>0 }">
@@ -34,11 +39,11 @@
 		<form:form modelAttribute="user" action="${formAction}"
 			method="${formMethod}">
 			<div class="form-group row">
-				<label>Name:</label>
+				<label><spring:message code="user.firstName" />:</label>
 				<form:input class="form-control" path="nome" id="nome" type="text" />
 			</div>
 			<div class="form-group row">
-				<label>Last Name:</label>
+				<label><spring:message code="user.lastName" />:</label>
 				<form:input class="form-control" path="sobrenome" id="sobrenome"
 					type="text" />
 			</div>
@@ -53,7 +58,7 @@
 					type="date" />
 			</div>
 			<div class="form-group row">
-				<label>Social Security ID:</label>
+				<label><spring:message code="user.CPF" />:</label>
 				<form:input class="form-control" path="cpf" id="cpf" type="text" />
 			</div>
 			<div class="form-group row">
@@ -65,6 +70,21 @@
 		</form:form>
 
 		<h2>List user</h2>
+		<form class="form-inline"
+			action="${pageContext.request.contextPath}/user/find-by">
+			<div class="input-group">
+				<input type="text" class="form-control" name="lastName"
+					placeholder="Digite um nome">
+			</div>
+			<div class="input-group">
+				<input type="text" class="form-control" name="firstName"
+					placeholder="Digite um nome">
+			</div>
+			<div class="input-group">
+				<input type="text" class="form-control" name="cpf" placeholder="cpf">
+			</div>
+			<button type="submit" class="btn btn-primary">Pesquisar</button>
+		</form>
 		<table class="table table-striped">
 			<tr>
 				<td>Last Name</td>
@@ -73,6 +93,7 @@
 				<td>Birthdate</td>
 				<td>Address</td>
 				<td>Edit</td>
+				<td>Delete</td>
 
 			</tr>
 			<c:forEach items="${users}" var="user">
@@ -84,9 +105,22 @@
 					<td>${user.endereco}</td>
 					<td><a
 						href="${pageContext.request.contextPath}/user/${user.id}">Edit</a></td>
-
+					<td><a href="#myModal_${user.id}" role="button"
+						class="btn btn-danger" data-toggle="modal">Delete<i
+							class="fa fa-trash-o"></i></a></td>
 				</tr>
-
+				<div id="myModal_${user.id}" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-header">
+							<h4 class="modal-title">Confirm delete</h4>
+						</div>
+						<div class="modal-body">
+							<button class="btn btn-default" data-dismiss="modal">Close</button>
+							<a href="${pageContext.request.contextPath}/user/delete/${user.id}"
+							class= "btn btn-danger">Delete</a>
+						</div>
+					</div>
+				</div>
 			</c:forEach>
 		</table>
 	</div>
