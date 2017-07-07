@@ -111,14 +111,19 @@
 				</tr>
 				<div id="myModal_${user.id}" class="modal fade">
 					<div class="modal-dialog">
+					<div class="modal-content">
 						<div class="modal-header">
 							<h4 class="modal-title">Confirm delete</h4>
 						</div>
 						<div class="modal-body">
+							<p>tEM CERTEZA QUE DESEJA DELETAR</p>
+						</div>
+						<div class="modal-footer">
 							<button class="btn btn-default" data-dismiss="modal">Close</button>
 							<a href="${pageContext.request.contextPath}/user/delete/${user.id}"
 							class= "btn btn-danger">Delete</a>
 						</div>
+					</div>
 					</div>
 				</div>
 			</c:forEach>

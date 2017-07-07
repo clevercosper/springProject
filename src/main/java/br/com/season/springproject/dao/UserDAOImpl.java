@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 
 import br.com.season.springproject.entity.User;
@@ -61,28 +62,39 @@ public class UserDAOImpl implements UserDAO {
 		// TODO Auto-generated method stub
 		StringBuilder sql = new StringBuilder();
 		sql.append(" SELECT u FROM User u WHERE 1=1");
-		
-		if(StringUtils.isNotEmpty(lastName)){
+
+		if (StringUtils.isNotEmpty(lastName)) {
 			sql.append(" AND u.sobrenome = :lastName ");
 		}
-		if(StringUtils.isNotEmpty(firstName)){
+		if (StringUtils.isNotEmpty(firstName)) {
 			sql.append(" AND u.nome = :firstName ");
 		}
-		if(StringUtils.isNotEmpty(cpf)){
+		if (StringUtils.isNotEmpty(cpf)) {
 			sql.append(" AND u.cpf = :cpf ");
 		}
 		Query query = em.createQuery(sql.toString());
-		
-		if(StringUtils.isNotEmpty(lastName)){
+
+		if (StringUtils.isNotEmpty(lastName)) {
 			query.setParameter("lastName", lastName);
 		}
-		if(StringUtils.isNotEmpty(firstName)){
+		if (StringUtils.isNotEmpty(firstName)) {
 			query.setParameter("firstName", firstName);
 		}
-		if(StringUtils.isNotEmpty(cpf)){
+		if (StringUtils.isNotEmpty(cpf)) {
 			query.setParameter("cpf", cpf);
 		}
 		return query.getResultList();
+	}
+
+	@Override
+	public User findUserName(String username) {
+		String sql = "SELECT u FROM User u WHERE u.username = :username";
+		User user = em.createQuery(sql, User.class).setParameter("username", username).getSingleResult();
+
+		if (user != null) {
+			Hibernate.initialize(user.getUserprofile());
+		}
+		return user;
 	}
 
 }

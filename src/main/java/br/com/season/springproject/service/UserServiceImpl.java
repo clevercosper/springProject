@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
+
 		return userDAO.findAll();
 	}
 
@@ -59,8 +59,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findBy(String lastName, String firstName, String cpf) {
-		// TODO Auto-generated method stub
+
 		return userDAO.findBy(lastName,firstName, cpf);
+	}
+
+	@Override
+	public User findUsername(String username) {
+
+		return userDAO.findUserName(username);
 	}
 
 }
