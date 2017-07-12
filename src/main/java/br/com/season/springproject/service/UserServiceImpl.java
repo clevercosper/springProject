@@ -3,6 +3,7 @@ package br.com.season.springproject.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDAO userDAO;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public User findById(Integer id) {
@@ -32,6 +36,7 @@ public class UserServiceImpl implements UserService {
 	public void save(User user) {
 		// regras para salvamento são definidas nessa camada(service) a DAO
 		// somente executa a tarefa de salvamento.
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDAO.save(user);
 
 	}

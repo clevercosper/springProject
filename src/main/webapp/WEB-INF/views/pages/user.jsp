@@ -1,6 +1,9 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
+
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -10,7 +13,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>cadastro</title>
 </head>
 <body>
 	<div class="row">
@@ -35,82 +38,96 @@
 
 		</c:otherwise>
 	</c:choose>
-	<div class="container well panel panel-default">
-		<form:form modelAttribute="user" action="${formAction}"
-			method="${formMethod}">
-			<div class="form-group row">
-				<label><spring:message code="user.firstName" />:</label>
-				<form:input class="form-control" path="nome" id="nome" type="text" />
-			</div>
-			<div class="form-group row">
-				<label><spring:message code="user.lastName" />:</label>
-				<form:input class="form-control" path="sobrenome" id="sobrenome"
-					type="text" />
-			</div>
-			<div class="form-group row">
-				<label>Address:</label>
-				<form:input class="form-control" path="endereco" id="endereco"
-					type="text" />
-			</div>
-			<div class="form-group row">
-				<label>Birthdate:</label>
-				<form:input class="form-control" path="datanasc" id="datanasc"
-					type="date" />
-			</div>
-			<div class="form-group row">
-				<label><spring:message code="user.CPF" />:</label>
-				<form:input class="form-control" path="cpf" id="cpf" type="text" />
-			</div>
-			<div class="form-group row">
-				<button class="btn btn-primary" type="submit" value="send">
-					<i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar
-				</button>
-			</div>
+	<sec:authorize access="hasRole('ADMIN')">
+		<div class="container well panel panel-default">
+			<form:form modelAttribute="user" action="${formAction}"
+				method="${formMethod}">
+				<div class="form-group row">
+					<label><spring:message code="user.firstName" />:</label>
+					<form:input class="form-control" path="nome" id="nome" type="text" />
+				</div>
+				<div class="form-group row">
+					<label><spring:message code="user.lastName" />:</label>
+					<form:input class="form-control" path="sobrenome" id="sobrenome"
+						type="text" />
+				</div>
+				<div class="form-group row">
+					<label>Address:</label>
+					<form:input class="form-control" path="endereco" id="endereco"
+						type="text" />
+				</div>
+				<div class="form-group row">
+					<label>Birthdate:</label>
+					<form:input class="form-control" path="datanasc" id="datanasc"
+						type="date" />
+				</div>
+				<div class="form-group row">
+					<label><spring:message code="user.CPF" />:</label>
+					<form:input class="form-control" path="cpf" id="cpf" type="text" />
+				</div>
+				<div class="form-group row">
+					<label><spring:message code="user.username" />:</label>
+					<form:input class="form-control" path="username" id="username"
+						type="text" />
+				</div>
+				<div class="form-group row">
+					<label><spring:message code="user.password" />:</label>
+					<form:input class="form-control" type="password" path="password" id="password" />
+				</div>
+				<div class="form-group row">
+				<label>Profiles</label>
+				</div>
+				<div class="form-group row">
+					<button class="btn btn-primary" type="submit" value="send">
+						<i class="fa fa-floppy-o" aria-hidden="true"></i> Salvar
+					</button>
+				</div>
 
-		</form:form>
+			</form:form>
+	</sec:authorize>
 
-		<h2>List user</h2>
-		<form class="form-inline"
-			action="${pageContext.request.contextPath}/user/find-by">
-			<div class="input-group">
-				<input type="text" class="form-control" name="lastName"
-					placeholder="Digite um nome">
-			</div>
-			<div class="input-group">
-				<input type="text" class="form-control" name="firstName"
-					placeholder="Digite um nome">
-			</div>
-			<div class="input-group">
-				<input type="text" class="form-control" name="cpf" placeholder="cpf">
-			</div>
-			<button type="submit" class="btn btn-primary">Pesquisar</button>
-		</form>
-		<table class="table table-striped">
+	<h2>List user</h2>
+	<form class="form-inline"
+		action="${pageContext.request.contextPath}/user/find-by">
+		<div class="input-group">
+			<input type="text" class="form-control" name="lastName"
+				placeholder="Digite um nome">
+		</div>
+		<div class="input-group">
+			<input type="text" class="form-control" name="firstName"
+				placeholder="Digite um nome">
+		</div>
+		<div class="input-group">
+			<input type="text" class="form-control" name="cpf" placeholder="cpf">
+		</div>
+		<button type="submit" class="btn btn-primary">Pesquisar</button>
+	</form>
+	<table class="table table-striped">
+		<tr>
+			<td>Last Name</td>
+			<td>First Name</td>
+			<td>CPF</td>
+			<td>Birthdate</td>
+			<td>Address</td>
+			<td>Edit</td>
+			<td>Delete</td>
+
+		</tr>
+		<c:forEach items="${users}" var="user">
 			<tr>
-				<td>Last Name</td>
-				<td>First Name</td>
-				<td>CPF</td>
-				<td>Birthdate</td>
-				<td>Address</td>
-				<td>Edit</td>
-				<td>Delete</td>
-
+				<td>${user.sobrenome}</td>
+				<td>${user.nome}</td>
+				<td>${user.cpf}</td>
+				<td>${user.datanasc}</td>
+				<td>${user.endereco}</td>
+				<td><a
+					href="${pageContext.request.contextPath}/user/${user.id}">Edit</a></td>
+				<td><a href="#myModal_${user.id}" role="button"
+					class="btn btn-danger" data-toggle="modal">Delete<i
+						class="fa fa-trash-o"></i></a></td>
 			</tr>
-			<c:forEach items="${users}" var="user">
-				<tr>
-					<td>${user.sobrenome}</td>
-					<td>${user.nome}</td>
-					<td>${user.cpf}</td>
-					<td>${user.datanasc}</td>
-					<td>${user.endereco}</td>
-					<td><a
-						href="${pageContext.request.contextPath}/user/${user.id}">Edit</a></td>
-					<td><a href="#myModal_${user.id}" role="button"
-						class="btn btn-danger" data-toggle="modal">Delete<i
-							class="fa fa-trash-o"></i></a></td>
-				</tr>
-				<div id="myModal_${user.id}" class="modal fade">
-					<div class="modal-dialog">
+			<div id="myModal_${user.id}" class="modal fade">
+				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h4 class="modal-title">Confirm delete</h4>
@@ -120,14 +137,15 @@
 						</div>
 						<div class="modal-footer">
 							<button class="btn btn-default" data-dismiss="modal">Close</button>
-							<a href="${pageContext.request.contextPath}/user/delete/${user.id}"
-							class= "btn btn-danger">Delete</a>
+							<a
+								href="${pageContext.request.contextPath}/user/delete/${user.id}"
+								class="btn btn-danger">Delete</a>
 						</div>
 					</div>
-					</div>
 				</div>
-			</c:forEach>
-		</table>
+			</div>
+		</c:forEach>
+	</table>
 	</div>
 </body>
 </html>
